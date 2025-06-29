@@ -131,5 +131,8 @@ export PATH="$FLUTTER_ROOT/bin:$PATH"
 export PATH="$PATH:$HOME/.pub-cache/bin"
 
 bindkey -v
+# in vi insert mode, jk sends back to command (normal) mode
+bindkey -M viins 'jk' vi-cmd-mode
+
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
