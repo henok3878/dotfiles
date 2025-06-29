@@ -25,3 +25,6 @@ git clone git@github.com:henok3878/dotfiles.git
 cd ~/dotfiles
 ./install.sh 
 ```
+
+TODO: create `install.sh` to link `scripts`, `configs`, and `home` into proper places
+and install dependencies.
