@@ -1,0 +1,57 @@
+{
+  "title": "My Custom Keyboard Mods", 
+  "rules": [
+    {
+      "description": "CapsLock: tap for Escape; hold for Hyper (Ctrl+Shift+Option)",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to_if_alone": [
+            {
+              "key_code": "escape"
+            }
+          ],
+          "to_if_held_down": [
+            {
+              "key_code": "left_control",
+              "modifiers": [
+                "left_shift",
+                "left_option"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    // --- Enter as a Contrl when held. Mainly useful for builtin mac keybaord to use the enter as right control---
+    {
+      "description": "Enter as Control when held, Enter when tapped",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "return_or_enter"
+          },
+          "to_if_held_down": [
+            {
+              "key_code": "left_control"
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "return_or_enter"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
