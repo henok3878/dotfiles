@@ -75,15 +75,24 @@ return {
         -- (E) “Contest” layout with sanitized names
         received_contests_directory = "$(HOME)/cp/$(JUDGE)/contests",
         received_contests_problems_path = function(task, ext)
-          -- Contest ID (e.g. "954")
-          local contest_id = task.contest or task.group
+          local grp = task.group
+          -- drop the leading "<platform> -" ex: "Codeforces - "
+          grp = grp:gsub("^[^%-]+%-%s*", "")
+          -- remove any "(...)"
+          grp = grp:gsub("%s*%b()", "")
+          -- abbreviate
+          grp = grp:gsub("Educational", "Edu"):gsub("Codeforces", "CF")
+          -- normalize whitespace and trim ends
+          grp = grp:gsub("%s+", " "):match "^%s*(.-)%s*$"
+
+          local folder = grp:gsub("%s+", "_"):gsub("#", ""):gsub("[^%w_%-]", "")
 
           -- Sanitize each problem name
           local raw = task.name -- e.g. "G. Castle Defense"
           local sanitized = raw:gsub("%s+", "_"):gsub("%.", ""):gsub("[^%w_%-]", "")
 
           -- Path relative to “<contests>/<ContestID>/”
-          return string.format("%s/%s/%s.%s", contest_id, sanitized, sanitized, ext)
+          return string.format("%s/%s/%s.%s", folder, sanitized, sanitized, ext)
         end,
 
         -- ──────────────────────────────────────────────────────────────────────
