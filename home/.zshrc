@@ -53,6 +53,7 @@ alias obslink="~/scripts/obsidian_link.zsh"
 # git alias 
 alias ga='git add'
 alias gc='git commit'
+alias gcam='git commit --amend --no-edit'
 alias gco='git checkout'
 alias gcp='git cherry-pick'
 alias gdiff='git diff'
