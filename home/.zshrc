@@ -110,14 +110,6 @@ eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
-# OpenSSL (Homebrew): necessary for building some packages.
-export LDFLAGS="-L$(brew --prefix)/opt/openssl/lib"
-export CPPFLAGS="-I$(brew --prefix)/opt/openssl/include"
-export PKG_CONFIG_PATH="$(brew --prefix)/opt/openssl/lib/pkgconfig"
-
-# Tcl/Tk for Tkinter support
-export PATH="/opt/homebrew/opt/tcl-tk/bin:$PATH"
-
 # --- Java Setup ---
 # Choose one Java installation. For JDK 23, use:
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-23.jdk/Contents/Home"
