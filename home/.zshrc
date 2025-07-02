@@ -70,10 +70,12 @@ gac() {
     echo "Usage: gac <files...> \"commit message\""
     return 1
   fi
+  # gram args 1 - n-1 as files 
+  local files=(${argv[1,-2]}) 
   # grab the last argument as commit message
-  local msg="${!#}"
+  local msg=${argv[-1]}
   # add all the other args as files
-  git add "${@:1:$#-1}" && git commit -m "$msg"
+  git add -- "${files[@]}" && git commit -m "$msg"
 }
 
 # tmux alias 
