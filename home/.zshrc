@@ -67,10 +67,13 @@ alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %
 # gac: git add + commit in one go
 gac() {
   if [ $# -lt 2 ]; then
-    echo "Usage: gac <file> \"commit message\""
+    echo "Usage: gac <files...> \"commit message\""
     return 1
   fi
-  git add "$1" && git commit -m "$2"
+  # grab the last argument as commit message
+  local msg="${!#}"
+  # add all the other args as files
+  git add "${@:1:$#-1}" && git commit -m "$msg"
 }
 
 # tmux alias 
