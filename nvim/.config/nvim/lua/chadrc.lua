@@ -5,6 +5,22 @@
 ---@type ChadrcConfig
 local M = {}
 
+M.plugins = {
+  options = {
+    toggleterm = {
+      close_on_exit = false,
+      persist_mode = true,
+      float_opts = {
+        border = "single",
+        width = 0.80,
+        height = 0.60,
+        col = 0.10,
+        row = 0.10,
+      },
+    },
+  },
+}
+
 M.base46 = {
   theme = "catppuccin",
 

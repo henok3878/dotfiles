@@ -1,25 +1,23 @@
-# dotfiles
+# Dotfiles
 
-This repo contains all my personalized configuration and helper scripts for a complete macOS development environment.
+This repository contains my personalized dotfiles and setup scripts for macOS and Linux environments.
 
 ## Structure
 
-- **`home/`** - Dotfiles that live in `$HOME` (e.g: `.zshrc`)
-- **`configs/`** - [XDG-style](https://specifications.freedesktop.org/basedir-spec/latest/) config directories under `~/.config/` (e.g: `nvim/`, `ghostty/`)
-- **`scripts/`** - Executable utilities which get symlinked to `~/scripts/`
-- **`Brewfile`** - Homebrew bundle file with all packages, casks, and VS Code extensions
-- **`install.sh`** - Automated setup script that installs everything
+- **`<package>/`** - Each directory is a `stow` package (e.g., `zsh`, `nvim`, `tmux`).
+- **`Brewfile`** - A list of all Homebrew packages, casks, and VS Code extensions for macOS.
+- **`install.sh`** - A setup script to automate the installation process.
 
-## Quick Setup (Fresh Mac)
+## Quick Setup
 
-On a brand new Mac, simply run:
+On a new machine, you can run the following commands to get started:
 
 ```bash
-# Install Command Line Tools (required for git)
+# Install Command Line Tools (required for git on macOS)
 xcode-select --install
 
 # Clone the dotfiles repo
-git clone https://github.com/henok3878/dotfiles.git ~/dotfiles
+git clone https://github.com/your-username/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 
 # Run the full installation
@@ -28,56 +26,47 @@ cd ~/dotfiles
 
 This will automatically:
 
-- ✅ Install Homebrew
-- ✅ Install all packages from Brewfile (including Ghostty, Tmux, Neovim, etc.)
-- ✅ Set up Oh My Zsh with Powerlevel10k theme
-- ✅ Install zsh plugins (syntax highlighting, autosuggestions)
-- ✅ Configure Python environment with pyenv
-- ✅ Set up fzf with key bindings
-- ✅ Create symlinks for all config files
-- ✅ Set zsh as default shell
-- ✅ Make scripts executable
+- ✅ Install Homebrew (on macOS).
+- ✅ Install all packages from the `Brewfile` (on macOS).
+- ✅ Create symlinks for all your configuration files using `stow`.
 
-## Partial Installation
+## Usage
 
-If you only want to update symlinks (e.g., after adding new configs):
+The `install.sh` script can be used in two ways:
 
-```bash
-./install.sh --links
-```
+- **`./install.sh`**: This will run the full installation, including installing packages and creating symlinks.
+- **`./install.sh --stow-only`**: This will skip the package installation and only create the symlinks.
 
 ## What Gets Installed
 
 ### Development Tools
 
-- **Homebrew** - Package manager
-- **Git** tools (lazygit)
-- **Terminal**: Ghostty (modern GPU-accelerated terminal)
-- **Editor**: Neovim with custom configuration
-- **Shell**: zsh with Oh My Zsh + Powerlevel10k theme
-- **Python**: pyenv for version management
-- **Node.js** ecosystem
-- **Java** (OpenJDK 17 & 23)
-- **Go** development tools
+- **Homebrew** - Package manager for macOS.
+- **Git** tools (lazygit).
+- **Terminal**: Ghostty (a modern, GPU-accelerated terminal).
+- **Editor**: Neovim with a custom configuration.
+- **Shell**: Zsh with Oh My Zsh and the Powerlevel10k theme.
+- **Python**: pyenv for version management.
+- **Node.js**, **Java**, and **Go** development tools.
 
 ### CLI Utilities
 
-- `bat` (better cat)
-- `eza` (better ls)
-- `fzf` (fuzzy finder)
-- `ripgrep` (better grep)
-- `zoxide` (better cd)
-- `tmux` (terminal multiplexer)
-- And many more (see Brewfile)
+- `bat` (a better `cat`).
+- `eza` (a better `ls`).
+- `fzf` (a fuzzy finder).
+- `ripgrep` (a better `grep`).
+- `zoxide` (a smarter `cd` command).
+- `tmux` (a terminal multiplexer).
+- And many more (see the `Brewfile`).
 
 ### Applications
 
-- **Ghostty** - Modern terminal
-- **Obsidian** - Note-taking
-- **Hammerspoon** - macOS automation
+- **Ghostty** - A modern terminal.
+- **Obsidian** - A note-taking application.
+- **Hammerspoon** - A macOS automation tool.
 
 ### VS Code Extensions
 
 - GitHub Copilot
-- Language support (Python, Go, Dart/Flutter, C/C++, Java)
-- Themes and productivity extensions
+- Language support for Python, Go, Dart/Flutter, C/C++, and Java.
+- Themes and productivity extensions.

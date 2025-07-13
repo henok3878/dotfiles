@@ -41,47 +41,49 @@ map("n", "<leader>rc", "<cmd>CompetiTest receive contest<cr>", { desc = "CC → 
 
 -- Toggle live Markdown/MDX preview
 map("n", "<leader>mp", "<Cmd>MarkdownPreviewToggle<CR>", { desc = "Toggle Markdown/MDX preview" })
--- Run current Python/C/C++ file in a floating terminal
--- map("n", "<leader>r", function()
---   vim.cmd "write" -- save the current file first
---   local ft = vim.bo.filetype
---   local file = fn.expand "%:p" -- full path
---   local base = fn.expand "%:r" -- name without extension
---   if ft == "python" then
---     local python_cmd = "python"
---     local venv = os.getenv "VIRTUAL_ENV"
---     if venv and fn.executable(venv .. "/bin/python") == 1 then
---       python_cmd = venv .. "/bin/python"
---     elseif fn.executable "python" == 1 then
---       python_cmd = "python"
---     elseif fn.executable "python3" == 1 then
---       python_cmd = "python3"
---     end
---
---     term.runner {
---       id = "file_runner",
---       pos = "float",
---       cmd = function()
---         return python_cmd .. " " .. fn.shellescape(file)
---       end,
---     }
---   elseif ft == "cpp" or ft == "c" then
---     term.runner {
---       id = "file_runner",
---       pos = "float",
---       cmd = function()
---         return string.format(
---           "g++ -std=c++17 %s -o %s && ./%s",
---           fn.shellescape(file),
---           fn.shellescape(base),
---           fn.shellescape(base)
---         )
---       end,
---     }
---   else
---     vim.notify("No runner defined for filetype: " .. ft, vim.log.levels.WARN)
---   end
--- end, { desc = "Run or compile+run current file" })
---
--- Optional: map Ctrl+S to save in normal, insert, and visual modes
--- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <CR>", { desc = "Save file" })
+
+-- Run or compile+run current file in a floating terminal
+map("n", "<leader>r", function()
+  -- save buffer
+  vim.cmd "write"
+
+  local ft = vim.bo.filetype
+  local file = fn.expand "%:p" -- full path to current file
+  local base = fn.expand "%:r" -- filename without extension
+  local cmd
+
+  if ft == "python" then
+    -- use venv's python if available
+    local venv = os.getenv "VIRTUAL_ENV"
+    if venv and fn.executable(venv .. "/bin/python") == 1 then
+      cmd = venv .. "/bin/python " .. fn.shellescape(file)
+    else
+      cmd = "python3 " .. fn.shellescape(file)
+    end
+  elseif ft == "c" then
+    cmd = string.format("gcc %s -o %s && ./%s", fn.shellescape(file), fn.shellescape(base), fn.shellescape(base))
+  elseif ft == "cpp" then
+    cmd =
+      string.format("g++ -std=c++17 %s -o %s && ./%s", fn.shellescape(file), fn.shellescape(base), fn.shellescape(base))
+  elseif ft == "go" then
+    cmd = "go run " .. fn.shellescape(file)
+  else
+    vim.notify("No runner defined for filetype: " .. ft, vim.log.levels.WARN)
+    return
+  end
+
+  -- launch in NvChad floating terminal
+  require("nvchad.term").runner {
+    id = "file_runner",
+    pos = "float",
+    cmd = cmd,
+    float_opts = {
+      -- centred 80 %×80 % window
+      width = 0.80,
+      height = 0.60,
+      -- (col, row) specify top left edge
+      col = 0.10,
+      row = 0.10,
+    },
+  }
+end, { desc = "Run or compile+run current file" })
