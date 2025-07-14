@@ -19,6 +19,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 bindkey '^E' autosuggest-accept
+bindkey -M viins '^E' autosuggest-accept
 
 # Load Powerlevel10k configuration if available.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
