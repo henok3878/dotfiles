@@ -10,6 +10,7 @@ return {
         "typescript",
         "markdown",
         "markdown_inline",
+        "latex",
         "tsx",
       },
       highlight = { enable = true },

@@ -8,6 +8,7 @@ return {
     config = function()
       vim.g.mkdp_auto_start = 0
       vim.g.mkdp_theme = "dark"
+      vim.g.mkdp_math = 1
     end,
   },
 }
