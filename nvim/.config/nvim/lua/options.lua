@@ -2,13 +2,12 @@ require "nvchad.options"
 
 local opt = vim.opt
 
--- Filetype detection for MDX + Markdown tweaks
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = "*.mdx",
-  callback = function()
-    vim.bo.filetype = "markdown.jsx"
-  end,
+vim.filetype.add({
+  extension = {
+    mdx = "mdx",
+  },
 })
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "markdown", "mdx", "markdown.jsx" },
   callback = function()
@@ -16,6 +15,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.spell = true
     vim.opt_local.conceallevel = 2
     vim.opt_local.concealcursor = "nc"
+    vim.treesitter.language.register("markdown", "mdx")
   end,
 })
 
