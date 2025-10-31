@@ -22,7 +22,7 @@ return {
         -- (A) Compile & Run Settings (unchanged)
         compile_command = {
           cpp = {
-            exec = "/opt/homebrew/bin/g++-14",
+            exec = "/opt/homebrew/bin/g++-15",
             args = {
               "-std=c++17",
               "-O2",

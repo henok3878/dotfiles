@@ -27,7 +27,7 @@ bindkey -M viins '^E' autosuggest-accept
 # --- Custom Aliases ---
 
 # Editor & compiler 
-alias g++="g++-14"
+alias g++="g++-15"
 alias vim="nvim"
 
 # CP (Competitive Programming) aliases
