@@ -150,4 +150,5 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
+export MACOSX_DEPLOYMENT_TARGET=26.0
+export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
