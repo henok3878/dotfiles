@@ -21,7 +21,7 @@ local plugins = {
           capabilities = nvlsp.capabilities,
           settings = {
             ["rust-analyzer"] = {
-              checkOnSave = { command = "clippy" },
+              check = { command = "clippy" },
               completion = { addCallParentheses = true },
             },
           },
