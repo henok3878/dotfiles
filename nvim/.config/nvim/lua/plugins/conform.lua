@@ -1,18 +1,22 @@
 ---@type LazyPluginSpec
 return {
   "stevearc/conform.nvim",
-  ft = { "python", "cpp", "typescript", "lua" },
+  event = { "BufReadPre", "BufNewFile" },
   opts = {
     format_on_save = {
       timeout_ms = 5000,
       lsp_fallback = true,
     },
-    stop_after_first = true,
     formatters_by_ft = {
-      python = { "black" },
+      python = { "isort", "black" },
       cpp = { "clang-format" },
+      c = { "clang-format" },
       typescript = { "prettier" },
+      yaml = { "prettier" },
+      json = { "prettier" },
       lua = { "stylua" },
+      rust = { "rustfmt" },
+      go = { "gofumpt", "goimports" },
     },
   },
 }

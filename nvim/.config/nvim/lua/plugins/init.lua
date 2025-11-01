@@ -33,7 +33,9 @@ local plugins = {
   {
     "williamboman/mason.nvim",
     config = function()
-      require("mason").setup()
+      require("mason").setup {
+        PATH = "append",
+      }
     end,
   },
   {
@@ -41,11 +43,31 @@ local plugins = {
     dependencies = { "mason.nvim" },
     config = function()
       require("mason-lspconfig").setup {
-        ensure_installed = { "pyright", "tsserver", "gopls", "rust_analyzer" },
+        ensure_installed = { "pyright", "tsserver", "gopls", "rust_analyzer", "jsonls", "yamlls", "clangd", "lua_ls" },
+        automatic_installation = true,
       }
     end,
   },
-
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    dependencies = { "williamboman/mason.nvim" },
+    opts = {
+      ensure_installed = {
+        -- match your conform formatters
+        "black",
+        "isort",
+        "clang-format",
+        "prettier", -- or "prettierd"
+        "stylua",
+        "gofumpt",
+        "goimports",
+        -- LSPs are optional here, but harmless if you want them managed too:
+        -- "pyright", "gopls", "rust-analyzer", "clangd", "lua-language-server", "json-lsp", "yaml-language-server",
+      },
+      run_on_start = true,
+      auto_update = true,
+    },
+  },
   -- Enhanced completion with rich documentation
   {
     "hrsh7th/nvim-cmp",
