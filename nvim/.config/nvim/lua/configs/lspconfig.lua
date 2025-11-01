@@ -4,7 +4,7 @@ require("nvchad.configs.lspconfig").defaults()
 local lspconfig = require "lspconfig"
 local nvlsp = require "nvchad.configs.lspconfig"
 
-local servers = { "pyright", "ts_ls", "lua_ls", "gopls", "rust_analyzer" }
+local servers = { "pyright", "ts_ls", "lua_ls", "gopls" }
 
 local capabilities = require("nvchad.configs.lspconfig").capabilities
 -- Enhanced capabilities for better completion
@@ -120,19 +120,6 @@ lspconfig.gopls.setup {
       completeUnimported = true,
       usePlaceholders = true,
       analyses = { unusedparams = true },
-    },
-  },
-}
-
--- Rust with clippy
-lspconfig.rust_analyzer.setup {
-  on_attach = on_attach,
-  on_init = nvlsp.on_init,
-  capabilities = capabilities,
-  settings = {
-    ["rust-analyzer"] = {
-      checkOnSave = { command = "clippy" },
-      completion = { addCallParentheses = true },
     },
   },
 }
