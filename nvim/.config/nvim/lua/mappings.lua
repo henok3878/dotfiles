@@ -42,6 +42,49 @@ map("n", "<leader>rc", "<cmd>CompetiTest receive contest<cr>", { desc = "CC → 
 -- Toggle live Markdown/MDX preview
 map("n", "<leader>mp", "<Cmd>MarkdownPreviewToggle<CR>", { desc = "Toggle Markdown/MDX preview" })
 
+-- helpers: find nearest Cargo.toml upward from the *file's* dir, then build run cmd
+local function cargo_root_for(file_abs)
+  local start = vim.fs.dirname(file_abs)
+  local cargo = vim.fs.find("Cargo.toml", { upward = true, path = start })[1]
+  return cargo and vim.fs.dirname(cargo) or nil
+end
+
+local function rust_run_cmd(file_abs)
+  local root = cargo_root_for(file_abs)
+  if root then
+    -- path relative to cargo root
+    local rel = file_abs:sub(#root + 2) -- strip "<root>/"
+    -- src/bin/<name>.rs => cargo run --bin <name>
+    local bin = rel:match "^src/bin/([^/]+)%.rs$"
+    if bin then
+      return string.format("cd %s && cargo run --quiet --bin %s", vim.fn.shellescape(root), vim.fn.shellescape(bin))
+    end
+    -- examples/<name>.rs => cargo run --example <name>
+    local ex = rel:match "^examples/([^/]+)%.rs$"
+    if ex then
+      return string.format("cd %s && cargo run --quiet --example %s", vim.fn.shellescape(root), vim.fn.shellescape(ex))
+    end
+    -- tests/<name>.rs => prefer running tests for that target
+    local tname = rel:match "^tests/([^/]+)%.rs$"
+    if tname then
+      return string.format("cd %s && cargo test -- --nocapture", vim.fn.shellescape(root))
+      -- or: cargo test --test <name>
+      -- return ("cd %s && cargo test --test %s -- --nocapture"):format(vim.fn.shellescape(root), vim.fn.shellescape(tname))
+    end
+    -- default: src/main.rs or any member crate file
+    return string.format("cd %s && cargo run --quiet", vim.fn.shellescape(root))
+  else
+    -- no Cargo.toml found; single-file fallback
+    local out = file_abs:gsub("%.%w+$", "") -- drop extension
+    return string.format(
+      "rustc -C opt-level=2 %s -o %s && %s",
+      vim.fn.shellescape(file_abs),
+      vim.fn.shellescape(out),
+      vim.fn.shellescape(out)
+    )
+  end
+end
+
 -- Run or compile+run current file in a floating terminal
 map("n", "<leader>r", function()
   -- save buffer
@@ -67,6 +110,8 @@ map("n", "<leader>r", function()
       string.format("g++ -std=c++17 %s -o %s && ./%s", fn.shellescape(file), fn.shellescape(base), fn.shellescape(base))
   elseif ft == "go" then
     cmd = "go run " .. fn.shellescape(file)
+  elseif ft == "rust" then
+    cmd = rust_run_cmd(file, base)
   else
     vim.notify("No runner defined for filetype: " .. ft, vim.log.levels.WARN)
     return
