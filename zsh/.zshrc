@@ -152,3 +152,6 @@ unset __conda_setup
 # <<< conda initialize <<<
 export MACOSX_DEPLOYMENT_TARGET=26.0
 export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
+
+# To customize prompt, run `p10k configure` or edit ~/dotfiles/zsh/.p10k.zsh.
+[[ ! -f ~/dotfiles/zsh/.p10k.zsh ]] || source ~/dotfiles/zsh/.p10k.zsh
